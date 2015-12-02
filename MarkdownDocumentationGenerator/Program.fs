@@ -4,15 +4,20 @@
 open FSharp.Markdown
 open System
 
+module CommandLineParser = 
+    
+    type OutputType = 
+        | Website       = 1 
+        | DocumentPDF   = 2 
 
-let alexTest = 4
-let alexTest2 = alexTest + 4
-
+    type ProgramParameters = {
+        rootDocument    : string;
+        outputType      : OutputType;
+        }
 
 [<EntryPoint>]
 let main argv = 
-    let filteredArgs = argv.Length
-    printfn "%A %A" alexTest2 filteredArgs
+    let filteredArgs = argv.Length 
     Console.ReadKey() |> ignore
     0 // return an integer exit code
 
