@@ -1,27 +1,17 @@
 ﻿module Program
 
-open CommandLineOptions
-open FSharp.Markdown
-open System
-open System.IO
+open CommandLineOptions 
+open System 
 
-let testDocument = """
-# F# Hello world
-Hello world in [F#](http://fsharp.net) looks like this:
-
-    printfn "Hello world!"
-
-For more see [fsharp.org][fsorg].
-
-  [fsorg]: http://fsharp.org "The F# organization." """
-
-let parsed = Markdown.Parse(testDocument) 
-let html = Markdown.WriteHtml(parsed)  
 
 [<EntryPoint>]
 let main argv = 
-    let filteredArgs = argv.Length 
-    File.WriteAllText("output.txt",html)
+    let filteredArgs = argv.Length  
+    let inputPath = argv.[0]
+    let outputPath = argv.[1] 
+    printfn "input : %A \n" inputPath
+    printfn "output : %A \n" outputPath
+    let result = CommandLineOptions.ConvertMarkdownToHTML inputPath outputPath
     Console.ReadKey() |> ignore
     
     0 // return an integer exit code
