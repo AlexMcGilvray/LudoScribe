@@ -1,29 +1,53 @@
 ﻿module CommandLineOptions
 
-open System.IO
-open FSharp.Markdown
+type LudoOperation =  
+    | ConvertMarkdownFileToHTMLFile of 
+        inputPath       : string *
+        outputPath      : string
+    | GenerateLudoHTMLDocumentation of 
+        inputPath       : string * 
+        outputPath      : string
+    | NoOperation of 
+        errorMessage    : string
 
-type OutputType =
-    | Website       = 1
-    | DocumentPDF   = 2
-
-type DocumentationConversionOptions = {
-    rootDocument    : string;
-    outputType      : OutputType;
+type LudoCommand = {
+    operation   : LudoOperation;
+    verbose     : bool
     }
 
-type MarkdownToHTMLConversionOptions = {
-    input           : string;
-    output          : string;
-    }
 
-let ConvertMarkdownToHTML inputPathToMarkdownFile outputHtmlPath =
-    let markdownStream = File.OpenText(inputPathToMarkdownFile)
-    let markdownString = markdownStream.ReadToEnd()
-    let parsedMarkdown = Markdown.Parse(markdownString) 
-    let html = Markdown.WriteHtml(parsedMarkdown)  
-    File.WriteAllText(outputHtmlPath,html)
-    0 //no error
+let ParseCommandLine args ludoOperation =
+
+    let defaultCommand = { 
+        operation = NoOperation(errorMessage = "default")
+        verbose = false 
+        }
+
+    let rec ParseCommandLineRecursive args ludoCommandSoFar =
+        match args with
+
+        | [] -> 
+            ludoCommandSoFar
+
+        | "--convert_markdown_to_html"::xs -> 
+            match xs with
+            | "--input"::xss ->
+                ParseCommandLineRecursive xss ludoCommandSoFar
+
+            | "--output"::xss ->
+                ParseCommandLineRecursive xss ludoCommandSoFar
+            
+            | _ ->
+                ParseCommandLineRecursive xs ludoCommandSoFar
+        
+        | x::xs ->
+            eprintfn "Option %s is not recognized." x
+
+
+    0
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 ﻿module Program
 
-open CommandLineOptions 
 open System 
+open LudoProcessor
 
 
 [<EntryPoint>]
@@ -11,7 +11,7 @@ let main argv =
     let outputPath = argv.[1] 
     printfn "input : %A \n" inputPath
     printfn "output : %A \n" outputPath
-    let result = CommandLineOptions.ConvertMarkdownToHTML inputPath outputPath
+    let result = LudoProcessor.ConvertMarkdownToHTML inputPath outputPath
     Console.ReadKey() |> ignore
     
     0 // return an integer exit code
