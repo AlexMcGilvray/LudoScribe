@@ -30,18 +30,31 @@ let ParseCommandLine args ludoOperation =
             ludoCommandSoFar
 
         | "--convert_markdown_to_html"::xs -> 
+            let ludoConvertCommand = { ludoCommandSoFar with operation = ConvertMarkdownFileToHTMLFile("default","default") }
             match xs with
             | "--input"::xss ->
-                ParseCommandLineRecursive xss ludoCommandSoFar
+                match xss with 
+                | xss::xsss ->
+                   // let ludoConvertCommandWithInput = { ludoConvertCommand with ConvertMarkdownFileToHTMLFile(operation)  }
+                    ParseCommandLineRecursive xsss ludoConvertCommand
+
+                | _ ->
+                    ParseCommandLineRecursive xss ludoConvertCommand
 
             | "--output"::xss ->
-                ParseCommandLineRecursive xss ludoCommandSoFar
+                match xss with 
+                | xss::xsss ->
+                    ParseCommandLineRecursive xsss ludoConvertCommand
+
+                | _ ->
+                    ParseCommandLineRecursive xss ludoConvertCommand
             
             | _ ->
-                ParseCommandLineRecursive xs ludoCommandSoFar
+                ParseCommandLineRecursive xs ludoConvertCommand
         
         | x::xs ->
             eprintfn "Option %s is not recognized." x
+            ParseCommandLineRecursive xs ludoCommandSoFar
 
 
     0
