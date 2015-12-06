@@ -10,16 +10,31 @@ type LudoOperation =
     | NoOperation of 
         errorMessage    : string
 
+type OperationConvertMarkdownFileToHTMLFile = {
+        inputPath        : string 
+        outputPath      : string
+    }
+
+type OperationGenerateLudoHTMLDocumentation = {
+        inputPath        : string 
+        outputPath      : string
+    }
+
+type OperationDefault = {
+        errorMessage    : string
+    }
+
 type LudoCommand = {
-    operation   : LudoOperation;
-    verbose     : bool
+        operation   : LudoOperation;
+        verbose     : bool
+
     }
 
 
-let ParseCommandLine args ludoOperation =
+let ParseCommandLine args =
 
     let defaultCommand = { 
-        operation = NoOperation(errorMessage = "default")
+        operation = NoOperation("default")
         verbose = false 
         }
 
@@ -35,8 +50,16 @@ let ParseCommandLine args ludoOperation =
             | "--input"::xss ->
                 match xss with 
                 | xss::xsss ->
-                   // let ludoConvertCommandWithInput = { ludoConvertCommand with ConvertMarkdownFileToHTMLFile(operation)  }
-                    ParseCommandLineRecursive xsss ludoConvertCommand
+                    let ludoConvertCommandOperation = ludoConvertCommand.operation
+
+                    match ludoConvertCommandOperation with 
+                    | ConvertMarkdownFileToHTMLFile (inputPath,outputPath) ->
+                        let ludoConvertCommandOperationWithInput = ConvertMarkdownFileToHTMLFile(xss,outputPath)
+                        let newLudoConvertCommand = { ludoCommandSoFar with operation = ludoConvertCommandOperationWithInput }
+                        ParseCommandLineRecursive xsss newLudoConvertCommand
+
+                    | _ ->
+                        ParseCommandLineRecursive xsss ludoConvertCommand
 
                 | _ ->
                     ParseCommandLineRecursive xss ludoConvertCommand
@@ -44,7 +67,16 @@ let ParseCommandLine args ludoOperation =
             | "--output"::xss ->
                 match xss with 
                 | xss::xsss ->
-                    ParseCommandLineRecursive xsss ludoConvertCommand
+                    let ludoConvertCommandOperation = ludoConvertCommand.operation
+
+                    match ludoConvertCommandOperation with 
+                    | ConvertMarkdownFileToHTMLFile (inputPath,outputPath) ->
+                        let ludoConvertCommandOperationWithInput = ConvertMarkdownFileToHTMLFile(inputPath,xss)
+                        let newLudoConvertCommand = { ludoCommandSoFar with operation = ludoConvertCommandOperationWithInput }
+                        ParseCommandLineRecursive xsss newLudoConvertCommand
+
+                    | _ ->
+                        ParseCommandLineRecursive xsss ludoConvertCommand
 
                 | _ ->
                     ParseCommandLineRecursive xss ludoConvertCommand
@@ -56,6 +88,7 @@ let ParseCommandLine args ludoOperation =
             eprintfn "Option %s is not recognized." x
             ParseCommandLineRecursive xs ludoCommandSoFar
 
+    let parsedCommand = ParseCommandLineRecursive args defaultCommand
 
     0
 

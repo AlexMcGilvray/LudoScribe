@@ -25,7 +25,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DocumentationFile>bin\Debug\MarkdownDocumentationGenerator.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
-    <StartArguments>"MasterDesignDoc.md" "MasterDesignDoc.html"</StartArguments>
+    <StartArguments>--convert_markdown_to_html --input "MasterDesignDoc.md" --output "MasterDesignDoc.html"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
