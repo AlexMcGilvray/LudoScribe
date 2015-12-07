@@ -11,27 +11,10 @@ type LudoOperation =
     | ErrorOperation of
         errorMessage    : string
 
-type OperationConvertMarkdownFileToHTMLFile = {
-        inputPath        : string 
-        outputPath      : string
-    }
-
-type OperationGenerateLudoHTMLDocumentation = {
-        inputPath        : string 
-        outputPath      : string
-    }
-
-type OperationDefault = {
-        errorMessage    : string
-    }
-
 type LudoCommand = {
         operation   : LudoOperation;
         verbose     : bool
-
     }
-     
-
 
 let ParseCommandLine args =
 
