@@ -4,6 +4,21 @@ open System.IO
 open FSharp.Markdown
 open CommandLineOptions
 
+type LudoDoc = {
+        realtivePath    : System.IO.Path;
+        filename        : string
+    }
+
+type LudoProject = {
+        documents       : LudoDoc;
+        verbose         : bool
+    }
+
+let ConvertMarkdownProjectToHTML inputPathToMarkdownProjectRoot outputPath =  
+    0
+
+
+
 let ConvertMarkdownToHTML inputPathToMarkdownFile outputHtmlPath =
     let markdownStream = File.OpenText(inputPathToMarkdownFile)
     let markdownString = markdownStream.ReadToEnd()
