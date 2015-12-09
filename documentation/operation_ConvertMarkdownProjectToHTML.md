@@ -1,4 +1,4 @@
-## LudoScribe
+## LudoScribe - Convert markdown project to html
 
 **Inputs**
 
