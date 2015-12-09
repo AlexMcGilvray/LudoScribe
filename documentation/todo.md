@@ -1,8 +1,8 @@
 # LudoScribe tasks
 
-**Project conversion**
+**Convert markdown project to HTML**
 
-Given a root directory path. The directory is recursively scanned and all markdown files are converted into a website with the same structure. 
+Given a root directory path. The directory is recursively scanned and all markdown files are converted into a website with the same structure. For more information on this functionality see [the design document for this function](./operation_ConvertMarkdownProjectToHTML.md)
 
 
 
