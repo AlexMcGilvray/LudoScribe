@@ -28,9 +28,9 @@ Project
 
 **Command line format**
 
-*command* --convert_markdown_project_to_html
+**command** --convert_markdown_project_to_html
 
-*required parameters
+**required parameters**
 * input path
 * output path
 
