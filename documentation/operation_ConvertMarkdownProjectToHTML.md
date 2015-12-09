@@ -22,7 +22,7 @@ Document
 * relative path
 
 Project
-* list <Document>
+* list \<Document\>
 * name 
 * meta
 
