@@ -1,4 +1,4 @@
-## Stateless master design doc
+## LudoScribe
 
 **Inputs**
 
