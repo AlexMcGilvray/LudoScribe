@@ -5,16 +5,25 @@ open FSharp.Markdown
 open CommandLineOptions
 
 type LudoDoc = {
-        realtivePath    : System.IO.Path;
-        filename        : string
+    relativePath    : System.IO.Path;
+    filename        : string
     }
 
+
 type LudoProject = {
-        documents       : LudoDoc;
+        documents       : LudoDoc list
         verbose         : bool
     }
 
 let ConvertMarkdownProjectToHTML inputPathToMarkdownProjectRoot outputPath =  
+    
+    let documentsEmptyList = []
+    let project = { new LudoProject with documents = List.empty<LudoDoc> and verbose = false }
+
+    let CreateLudoProject rootPath =
+        
+        0      
+
     0
 
 
