@@ -22,7 +22,7 @@ let ParseCommandLine args =
         operation = NoOperation
         verbose = false 
         }
-
+    
     let rec ParseMarkdownToHTMLOp args ludoOpSoFar = 
         match args with
         | xs::xss ->
@@ -55,17 +55,17 @@ let ParseCommandLine args =
 
             match ludoConvertOp with 
             | GenerateLudoHTMLDocumentation ("default","default") ->
-                let ludoConvertOpWithInput  = ConvertMarkdownFileToHTMLFile(xs,"default")
+                let ludoConvertOpWithInput  = GenerateLudoHTMLDocumentation(xs,"default")
                 let newLudoConvertCommand   = { ludoOpSoFar with operation = ludoConvertOpWithInput }
-                ParseMarkdownToHTMLOp xss newLudoConvertCommand
+                GenerateLudoHTMLDocumentationOp xss newLudoConvertCommand
             
             | GenerateLudoHTMLDocumentation (inputPath,"default") ->
-                let ludoConvertOpWithOutput = ConvertMarkdownFileToHTMLFile(inputPath,xs)
+                let ludoConvertOpWithOutput = GenerateLudoHTMLDocumentation(inputPath,xs)
                 let newLudoConvertCommand   = { ludoOpSoFar with operation = ludoConvertOpWithOutput }
                 newLudoConvertCommand
             
             | _ ->
-                let logicErrorMsg           = "Malformed GenerateLudoHTMLDocumentation structure. Program logic error."
+                let logicErrorMsg           = "Malformed GenerateLudoHTMLDocumentationOp structure. Program logic error."
                 let errorOperation          = { defaultCommand with operation = ErrorOperation(logicErrorMsg) }
                 errorOperation
         | _ ->
@@ -98,3 +98,8 @@ let ParseCommandLine args =
 
     let parsedCommand = ParseCommandLineRecursive args defaultCommand
     parsedCommand
+
+
+    //usages
+    //--convert_markdown_to_html docin.md docout.html
+    //--generate_ludo_documentation_html mdpath outputpath

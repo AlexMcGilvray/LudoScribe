@@ -25,7 +25,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DocumentationFile>bin\Debug\MarkdownDocumentationGenerator.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
-    <StartArguments>--convert_markdown_to_html MasterDesignDoc.md MasterDesignDoc.html</StartArguments>
+    <StartArguments>--generate_ludo_documentation_html E:\UnrealProjects\Stateless\Design\Documentation MasterDesignDoc.html</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

@@ -19,10 +19,18 @@ let GenerateLudoDocumentationHTML inputPathToMarkdownProjectRoot outputPath =
     let documentsEmptyList = []
     let project = { documents = List.empty<LudoDoc>; verbose = false }
 
+    let rec getAllFiles dir pattern =
+        seq { yield! Directory.EnumerateFiles(dir, pattern)
+              for d in Directory.EnumerateDirectories(dir) do
+                  yield! getAllFiles d pattern }
+
     let CreateLudoProject rootPath projectSoFar =
+        
         
         0      
 
+    getAllFiles inputPathToMarkdownProjectRoot "*.md"
+        |> Seq.iter (printfn "%s")
     0
 
 let ConvertMarkdownToHTML inputPathToMarkdownFile outputHtmlPath =
@@ -39,6 +47,7 @@ let ExecuteOperation ludoCommand =
     | ConvertMarkdownFileToHTMLFile (inputPath,outputPath)  ->
         ConvertMarkdownToHTML inputPath outputPath
     | GenerateLudoHTMLDocumentation (inputPath,outputPath)  ->
+        printf "generating html documentation"
         GenerateLudoDocumentationHTML inputPath outputPath
     | NoOperation                                           ->
         1
