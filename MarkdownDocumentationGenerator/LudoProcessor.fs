@@ -9,24 +9,21 @@ type LudoDoc = {
     filename        : string
     }
 
-
 type LudoProject = {
-        documents       : LudoDoc list
-        verbose         : bool
+    documents       : LudoDoc list
+    verbose         : bool
     }
 
-let ConvertMarkdownProjectToHTML inputPathToMarkdownProjectRoot outputPath =  
+let GenerateLudoDocumentationHTML inputPathToMarkdownProjectRoot outputPath =  
     
     let documentsEmptyList = []
-    let project = { new LudoProject with documents = List.empty<LudoDoc> and verbose = false }
+    let project = { documents = List.empty<LudoDoc>; verbose = false }
 
-    let CreateLudoProject rootPath =
+    let CreateLudoProject rootPath projectSoFar =
         
         0      
 
     0
-
-
 
 let ConvertMarkdownToHTML inputPathToMarkdownFile outputHtmlPath =
     let markdownStream = File.OpenText(inputPathToMarkdownFile)
@@ -42,7 +39,7 @@ let ExecuteOperation ludoCommand =
     | ConvertMarkdownFileToHTMLFile (inputPath,outputPath)  ->
         ConvertMarkdownToHTML inputPath outputPath
     | GenerateLudoHTMLDocumentation (inputPath,outputPath)  ->
-        1
+        GenerateLudoDocumentationHTML inputPath outputPath
     | NoOperation                                           ->
         1
     | ErrorOperation (errorMessage)                         ->

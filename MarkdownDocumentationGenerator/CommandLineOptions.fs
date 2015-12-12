@@ -48,6 +48,30 @@ let ParseCommandLine args =
             let errorOperation      = { defaultCommand with operation = ErrorOperation(userInputErrorMsg) }
             errorOperation
 
+    let rec GenerateLudoHTMLDocumentationOp args ludoOpSoFar = 
+        match args with
+        | xs::xss ->
+            let ludoConvertOp       = ludoOpSoFar.operation
+
+            match ludoConvertOp with 
+            | GenerateLudoHTMLDocumentation ("default","default") ->
+                let ludoConvertOpWithInput  = ConvertMarkdownFileToHTMLFile(xs,"default")
+                let newLudoConvertCommand   = { ludoOpSoFar with operation = ludoConvertOpWithInput }
+                ParseMarkdownToHTMLOp xss newLudoConvertCommand
+            
+            | GenerateLudoHTMLDocumentation (inputPath,"default") ->
+                let ludoConvertOpWithOutput = ConvertMarkdownFileToHTMLFile(inputPath,xs)
+                let newLudoConvertCommand   = { ludoOpSoFar with operation = ludoConvertOpWithOutput }
+                newLudoConvertCommand
+            
+            | _ ->
+                let logicErrorMsg           = "Malformed GenerateLudoHTMLDocumentation structure. Program logic error."
+                let errorOperation          = { defaultCommand with operation = ErrorOperation(logicErrorMsg) }
+                errorOperation
+        | _ ->
+            let userInputErrorMsg   = "Error no inputpath specified"
+            let errorOperation      = { defaultCommand with operation = ErrorOperation(userInputErrorMsg) }
+            errorOperation
 
     let rec ParseCommandLineRecursive args ludoOpSoFar =
         match args with
@@ -58,6 +82,10 @@ let ParseCommandLine args =
         | "--convert_markdown_to_html"::x -> 
             let ludoConvertCommand = { ludoOpSoFar with operation = ConvertMarkdownFileToHTMLFile("default","default") }
             ParseMarkdownToHTMLOp x ludoConvertCommand
+
+        | "--generate_ludo_documentation_html"::x -> 
+            let ludoConvertCommand = { ludoOpSoFar with operation = GenerateLudoHTMLDocumentation("default","default") }
+            GenerateLudoHTMLDocumentationOp x ludoConvertCommand
 
         | x::xs ->
             eprintfn "Option %s is not recognized." x
