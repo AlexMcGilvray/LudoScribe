@@ -3,6 +3,7 @@
 open System.IO
 open FSharp.Markdown
 open CommandLineOptions
+open LudoUtil
 
 type LudoDoc = {
     relativePath    : System.IO.Path;
@@ -19,17 +20,13 @@ let GenerateLudoDocumentationHTML inputPathToMarkdownProjectRoot outputPath =
     let documentsEmptyList = []
     let project = { documents = List.empty<LudoDoc>; verbose = false }
 
-    let rec getAllFiles dir pattern =
-        seq { yield! Directory.EnumerateFiles(dir, pattern)
-              for d in Directory.EnumerateDirectories(dir) do
-                  yield! getAllFiles d pattern }
 
     let CreateLudoProject rootPath projectSoFar =
         
         
         0      
 
-    getAllFiles inputPathToMarkdownProjectRoot "*.md"
+    LudoUtil.GetAllFiles inputPathToMarkdownProjectRoot "*.md"
         |> Seq.iter (printfn "%s")
     0
 
