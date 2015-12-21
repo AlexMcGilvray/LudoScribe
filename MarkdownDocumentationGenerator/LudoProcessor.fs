@@ -7,28 +7,14 @@ open LudoUtil
 
 type LudoDoc = {
     relativePath    : System.IO.Path;
-    filename        : string
+    name            : string;
+    body            : string
     }
 
 type LudoProject = {
     documents       : LudoDoc list
     verbose         : bool
     }
-
-let GenerateLudoDocumentationHTML inputPathToMarkdownProjectRoot outputPath =  
-    
-    let documentsEmptyList = []
-    let project = { documents = List.empty<LudoDoc>; verbose = false }
-
-
-    let CreateLudoProject rootPath projectSoFar =
-        
-        
-        0      
-
-    LudoUtil.GetAllFiles inputPathToMarkdownProjectRoot "*.md"
-        |> Seq.iter (printfn "%s")
-    0
 
 let ConvertMarkdownToHTML inputPathToMarkdownFile outputHtmlPath =
     let markdownStream = File.OpenText(inputPathToMarkdownFile)
@@ -37,6 +23,36 @@ let ConvertMarkdownToHTML inputPathToMarkdownFile outputHtmlPath =
     let html = Markdown.WriteHtml(parsedMarkdown)  
     File.WriteAllText(outputHtmlPath,html)
     0 //no error
+
+let ConvertMarkdownToHTMLX inputPathToMarkdownFile outputHtmlPath =
+    let markdownStream = File.OpenText(inputPathToMarkdownFile)
+    let markdownString = markdownStream.ReadToEnd()
+    let parsedMarkdown = Markdown.Parse(markdownString) 
+    let html = Markdown.WriteHtml(parsedMarkdown)  
+    File.WriteAllText(outputHtmlPath,html)
+
+let GenerateLudoDocumentationHTML inputPathToMarkdownProjectRoot outputPath =  
+    
+    let documentsEmptyList = []
+    let project = { documents = List.empty<LudoDoc>; verbose = false }
+
+
+    let CreateLudoProject rootPath projectSoFar =
+         
+        
+        0      
+
+  
+
+    LudoUtil.GetAllFiles inputPathToMarkdownProjectRoot "*.md"
+        |> Seq.iter (fun item -> ConvertMarkdownToHTMLX item outputPath) |> ignore
+
+    LudoUtil.GetAllFiles inputPathToMarkdownProjectRoot "*.md"
+        |> Seq.iter (printfn "%s")
+
+    0
+
+
 
 let ExecuteOperation ludoCommand =
     let operation = ludoCommand.operation
